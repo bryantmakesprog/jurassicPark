@@ -10,6 +10,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
+use app\models\Package;
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -34,10 +36,19 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $ticketMenuItems = array();
+    foreach(Package::find()->all() as $package)
+    {
+        $ticketMenuItems[] = ['label' => $package->name, 'url' => ['package/view-package', 'id' => $package->id]];
+    }
+    $ticketMenuItems[] = "<li class='divider'></li>";
+    $ticketMenuItems[] = ['label' => 'All Packages...', 'url' => ['package/view-all-packages']];
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Tickets', 'url' => ['/package/view-all-packages'], 'items' => $ticketMenuItems],
+        //['label' => 'Home', 'url' => ['/site/index']],
+        //['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Help', 'url' => ['/site/contact']],
+        ['label' => "<span class='glyphicon glyphicon-shopping-cart'></span> Cart", 'url' => ['package/cart-view']]
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -54,6 +65,7 @@ AppAsset::register($this);
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
         'items' => $menuItems,
     ]);
     NavBar::end();

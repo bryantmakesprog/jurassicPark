@@ -23,7 +23,7 @@ class PackageController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'update', 'create', 'delete'],
+                'only' => ['index', 'view', 'update', 'create', 'delete', 'checkout'],
                 'rules' => [
                     [
                         'actions' => ['index', 'view', 'update', 'create', 'delete'],
@@ -32,6 +32,11 @@ class PackageController extends Controller
                         'matchCallback' => function($rule, $action){
                             return User::userIsAdmin();
                         }
+                    ],
+                    [
+                        'actions' => ['checkout'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -193,5 +198,10 @@ class PackageController extends Controller
             echo $cart->getCount();
             echo $item->getId() . "<br/>";
         }
+    }
+    
+    public function actionCheckout()
+    {
+        echo "CHECKOUT UNIMPLEMENTED. Roles are there though.";
     }
 }
