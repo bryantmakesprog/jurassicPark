@@ -137,14 +137,43 @@ class PackageController extends Controller
         }
     }
     
-    //SHOPPING FUNCTIONS////////////////////////////////////////////////////////
-    public function actionAddToCart($id)
+    //PACKAGE FUNCTIONS/////////////////////////////////////////////////////////
+    public function actionViewPackage($id)
     {
-        $cart = new \yz\shoppingcart\ShoppingCart();
         $model = Package::findOne($id);
         if($model)
         {
-            Yii::$app->cart->put($model, 1);
+            return $this->render('view_package', ['model' => $model]);
+        }
+        else {
+            throw new NotFoundHttpException();
+        }
+    }
+    
+    public function actionViewAllPackages()
+    {
+        return $this->render('view_all_packages');
+    }
+    
+    //SHOPPING FUNCTIONS////////////////////////////////////////////////////////
+    public function actionAddToCart($id, $adultCount, $childCount)
+    {
+        $model = Package::findOne($id);
+        if($model)
+        {
+            Yii::$app->cart->put($model, $adultCount + $childCount);
+            return $this->redirect(['cart-view']);
+        }
+        else
+            throw new NotFoundHttpException();
+    }
+    
+    public function actionRemoveFromCart($id)
+    {
+        $model = Package::findOne($id);
+        if($model)
+        {
+            Yii::$app->cart->remove($model);
             return $this->redirect(['cart-view']);
         }
         else
@@ -153,6 +182,7 @@ class PackageController extends Controller
     
     public function actionCartView()
     {
+        return $this->render('cart-view');
         //redirect to a view file. we were just testing here.
         //a position holds a single TYPE of item. It holds a quantity if multiple are added.
         $cart = Yii::$app->cart;
