@@ -13,6 +13,8 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $firstName;
+    public $lastName;
 
     /**
      * @inheritdoc
@@ -33,6 +35,13 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            
+            ['firstName', 'filter', 'filter' => 'trim'],
+            ['firstName', 'required'],
+            ['firstName', 'string'],
+            ['lastName', 'filter', 'filter' => 'trim'],
+            ['lastName', 'required'],
+            ['lastName', 'string'],
         ];
     }
 
@@ -52,6 +61,8 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+        $user->firstName = $this->firstName;
+        $user->lastName = $this->lastName;
         
         return $user->save() ? $user : null;
     }

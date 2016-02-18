@@ -36,6 +36,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    
     $ticketMenuItems = array();
     foreach(Package::find()->all() as $package)
     {
@@ -43,6 +44,15 @@ AppAsset::register($this);
     }
     $ticketMenuItems[] = "<li class='divider'></li>";
     $ticketMenuItems[] = ['label' => 'All Packages...', 'url' => ['package/view-all-packages']];
+    
+    $profileMenuItems = array();
+    $profileMenuItems[] = ['label' => "View Tickets", 'url' => ['ticket/view-by-user']];
+    $profileMenuItems[] = "<li class='divider'></li>";
+    if(!Yii::$app->user->isGuest)
+    {
+        $profileMenuItems[] = ['label' => "Logout", 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
+    }
+    
     $menuItems = [
         ['label' => 'Tickets', 'url' => ['/package/view-all-packages'], 'items' => $ticketMenuItems],
         //['label' => 'Home', 'url' => ['/site/index']],
@@ -54,14 +64,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItems[] = ['label' => Yii::$app->user->identity->username, 'items' => $profileMenuItems];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

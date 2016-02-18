@@ -27,10 +27,8 @@ if($generateTickets)
     //Generate Tickets.
     $cart = Yii::$app->cart;
     $owner = Yii::$app->user->identity->id;
-    //$firstName = Yii::$app->user->identity->firstName;
-    $firstName = "John";
-    //$lastName = Yii::$app->user->identity->lastName;
-    $lastName = "Doe";
+    $firstName = Yii::$app->user->identity->firstName;
+    $lastName = Yii::$app->user->identity->lastName;
     foreach($cart->positions as $position){
         $i = 0;
         while($i < $position->getQuantity())

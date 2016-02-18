@@ -23,7 +23,7 @@ class TicketController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'update', 'create', 'delete', 'view-by-user'],
+                'only' => ['index', 'view', 'update', 'create', 'delete', 'view-by-user', 'view-ticket'],
                 'rules' => [
                     [
                         'actions' => ['index', 'view', 'update', 'create', 'delete'],
@@ -34,7 +34,7 @@ class TicketController extends Controller
                         }
                     ],
                     [
-                        'actions' => ['view-by-user'],
+                        'actions' => ['view-by-user', 'view-ticket'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -80,6 +80,27 @@ class TicketController extends Controller
     public function actionViewByUser()
     {
         return $this->render('view_user_tickets');
+    }
+    
+    //Displays printable ticket.
+    public function actionViewTicket($id)
+    {
+        $ticket = Ticket::findOne($id);
+        if($ticket)
+        {
+            if(Yii::$app->user->identity->id == $ticket->owner)
+            {
+                return $this->render('view_ticket', ['ticket' => $ticket]);
+            }
+            else
+            {
+                //Throw exception. Invalid user.
+            }
+        }
+        else
+        {
+            //Throw exception. Invalid ticket.
+        }
     }
 
     /**
