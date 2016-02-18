@@ -188,20 +188,13 @@ class PackageController extends Controller
     public function actionCartView()
     {
         return $this->render('cart-view');
-        //redirect to a view file. we were just testing here.
-        //a position holds a single TYPE of item. It holds a quantity if multiple are added.
-        $cart = Yii::$app->cart;
-        $items = $cart->getPositions();
-        echo $cart->getCost();
-        foreach($items as $item)
-        {
-            echo $cart->getCount();
-            echo $item->getId() . "<br/>";
-        }
     }
     
     public function actionCheckout()
     {
-        echo "CHECKOUT UNIMPLEMENTED. Roles are there though.";
+        if(Yii::$app->cart->getCount() > 0)
+            return $this->render('checkout');
+        else
+            return $this->redirect(['cart-view']);
     }
 }
