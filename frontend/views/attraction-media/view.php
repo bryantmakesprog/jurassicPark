@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Attraction */
+/* @var $model app\models\AttractionMedia */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Attractions', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Attraction Media', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="attraction-view">
+<div class="attraction-media-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,12 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
-            'description:ntext',
-            'type',
-            'duration',
-            'maxOccupancy',
-            'queueSize',
+            'attraction',
+            'url:url',
         ],
     ]) ?>
 

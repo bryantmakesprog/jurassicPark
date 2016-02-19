@@ -5,6 +5,7 @@
 $this->title = 'My Yii Application';
 
 use app\models\Attraction;
+use app\models\AttractionMedia;
 use yii\helpers\Html;
 ?>
 <div class="site-index">
@@ -37,12 +38,18 @@ use yii\helpers\Html;
                     echo "</div>";
                 }
             
-                //Echo our attraction.
+                //Get attraction image.
                 $imageURL = "http://i.imgur.com/B2x3TTy.jpg";
+                //Look for a random image representing the attraction. If none is found, use a placeholder.
+                $mediaConnection = AttractionMedia::find()->where(['attraction' => $attraction->id])->orderBy('RAND()')->one();
+                if($mediaConnection)
+                    $imageURL = $mediaConnection->url;
+                
+                //Echo our attraction.
                 echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
                     echo "<div class='dummy'></div>";
                     echo Html::a("<h2>$attraction->name</h2>", ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail', 'style' => 'background-color:#b91d47;']);
-                    echo Html::a("", ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail thumbnail-hover', 'style' => "background-image:url('$imageURL');"]);
+                    echo Html::a("", ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail thumbnail-hover', 'style' => "background-image:url('$imageURL');background-size:100% 100%;"]);
                 echo "</div>";
                 
                 $i++;
