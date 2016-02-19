@@ -11,6 +11,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 use app\models\Package;
+use app\models\Attraction;
 
 AppAsset::register($this);
 ?>
@@ -37,6 +38,12 @@ AppAsset::register($this);
         ],
     ]);
     
+    $attractionMenuItems = array();
+    foreach(Attraction::find()->all() as $attraction)
+    {
+        $attractionMenuItems[] = ['label' => $attraction->name, 'url' => ['attraction/view-attraction', 'id' => $attraction->id]];
+    }
+    
     $ticketMenuItems = array();
     foreach(Package::find()->all() as $package)
     {
@@ -55,6 +62,7 @@ AppAsset::register($this);
     
     $menuItems = [
         ['label' => 'Tickets', 'url' => ['/package/view-all-packages'], 'items' => $ticketMenuItems],
+        ['label' => 'Attractions', 'items' => $attractionMenuItems],
         //['label' => 'Home', 'url' => ['/site/index']],
         //['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Help', 'url' => ['/site/contact']],

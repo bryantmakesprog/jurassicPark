@@ -11,7 +11,6 @@ use yii\helpers\BaseHtml;
 //Random Park Teaser Image - Stock Image
 echo "<div>Park Image Here</div>";
 
-//Description
 echo "<div>Name: $model->name</div>";
 echo "<div>Description: $model->description</div>";
 
