@@ -41,6 +41,8 @@ if($generateTickets)
     $cart->removeAll();
     //Display ticket link.
     echo Html::a("View Tickets", ['/ticket/view-by-user'], ['class' => 'btn btn-success']);
+    
+    //Email something eventually.
 }
 
 
