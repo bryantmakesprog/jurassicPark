@@ -1,0 +1,28 @@
+/*
+Used to create a metro-like block display.
+
+Format
+
+<div class="col-md-3 col-sm-4 col-xs-6">
+    <div class="dummy"></div>
+    <a href="#x" class="thumbnail">View Profile</a>
+</div>
+
+*/
+
+.dummy {
+    margin-top: 100%;
+}
+.thumbnail {
+    position: absolute;
+    top: 15px;
+    bottom: 0;
+    left: 15px;
+    right: 0;
+    text-align:center;
+    padding-top:calc(50% - 30px);
+}
+.thumbnail:hover {
+    opacity:0;
+}
+

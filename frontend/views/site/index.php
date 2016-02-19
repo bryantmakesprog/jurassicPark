@@ -3,6 +3,9 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+
+use app\models\Attraction;
+use yii\helpers\Html;
 ?>
 <div class="site-index">
 
@@ -11,35 +14,51 @@ $this->title = 'My Yii Application';
 ?>
 
     <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4 well">
-                <h2>Weather</h2>
-                <?php
-                    echo $this->render('/widgets/_weather');
-                ?>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+        <div class="row-fluid">
+            
+            <?php
+            $weatherLocation = 0;
+            $weatherDisplayed = false;
+            
+            echo "TODO: We are trying to display an image until we hover over the link. Then we want to see a solid color and the name of the attraction.";
+            
+            $i = 0;
+            foreach(Attraction::find()->all() as $attraction)
+            {
+                if($i == $weatherLocation)
+                {
+                    //Echo our weather.
+                    $weatherDisplayed = true;
+                    echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
+                        echo "<div class='dummy'></div>";
+                        echo "<a href='#' class='thumbnail'>";
+                            echo $this->render('/widgets/_weather');
+                        echo "</a>";
+                    echo "</div>";
+                }
+            
+                //Echo our attraction.
+                echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
+                    echo "<div class='dummy'></div>";
+                    echo Html::a($attraction->name, ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail']);
+                echo "</div>";
+                
+                $i++;
+            }
+            
+            //Check for any remaining widgets.
+            if(!$weatherDisplayed)
+            {
+                //Echo our weather.
+                $weatherDisplayed = true;
+                echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
+                    echo "<div class='dummy'></div>";
+                    echo "<a href='#' class='thumbnail'>";
+                        echo $this->render('/widgets/_weather');
+                    echo "</a>";
+                echo "</div>";
+            }
+            ?>
         </div>
-
     </div>
 </div>
