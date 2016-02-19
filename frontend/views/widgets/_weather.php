@@ -11,16 +11,11 @@ $url="http://api.openweathermap.org/data/2.5/weather?q=".$city.",".$country."&un
 
 $json=file_get_contents($url);
 $data=json_decode($json,true);
-echo "<div>";
-    echo "<div class='row-fluid'>";
-        echo "<img src='http://openweathermap.org/img/w/" . $data['weather'][0]['icon'] . ".png' class='center-block'/>";
-    echo "</div>";
-    echo "<div class='row-fluid' class='center-block'>";
-        echo "<div class='col-md-12 text-center'>";
-            echo $data['weather'][0]['main'] . "<br/>";
-            //Get current Temperature in Celsius
-            echo round((($data['main']['temp'] * 1.8) + 32),0) . "&#8457" . "<br>";
-        echo "</div>";
-    echo "</div>";
-echo "</div>";
+
+//Current Image
+echo "<img src='http://openweathermap.org/img/w/" . $data['weather'][0]['icon'] . ".png'/>";
+//Current Condition
+echo $data['weather'][0]['main'] . "<br/>";
+//Current Temp(F)
+echo round((($data['main']['temp'] * 1.8) + 32),0) . "&#8457" . "<br>";
 
