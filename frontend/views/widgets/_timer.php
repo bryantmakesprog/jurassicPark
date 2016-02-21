@@ -10,10 +10,7 @@ $interval = date_diff($openingDate,$currentDate);
 $dateString = "";
 if($openingDate->getTimestamp() < $currentDate->getTimestamp())
     $dateString .= "-";
-$dateString .= $interval->format('%yy:%mm:%dd:%hh:%im:%ss');
+$dateString .= $interval->format('%yy:%mm:%dd:%hh');
 
-echo "<div class='jumbotron'>";
-    echo "<h2>Opening Soon!</h2>";
-    echo "<h1>$dateString</h1>";
-echo "</div>";
+echo $dateString;
 

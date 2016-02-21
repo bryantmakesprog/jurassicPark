@@ -20,7 +20,8 @@ echo "<tr>";
         echo "<td>";
         //Draw Logo
         echo "<div>";
-            echo "LOGO GOES HERE!";
+            $logoURL = "http://res.cloudinary.com/dxqmggd5a/image/upload/c_scale,h_128,w_128/v1456082054/jurassic/misc/logo.png";
+            echo "<img src='$logoURL'/>";
         echo "</div>";
         echo "</td>";
 

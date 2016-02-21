@@ -2,17 +2,23 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Jurassic Park';
 
 use app\models\Attraction;
 use app\models\AttractionMedia;
 use yii\helpers\Html;
-?>
-<div class="site-index">
+use yii\widgets\Pjax;
 
-<?php
-    echo $this->render('/widgets/_timer');
+$script = <<< JS
+$(document).ready(function() {
+    setInterval(function(){ $("#refreshButton").click(); }, 900);
+});
+JS;
+$this->registerJs($script);
+
 ?>
+
+<div class="site-index">
 
     <div class="body-content">
         <div class="row">
@@ -42,7 +48,11 @@ use yii\helpers\Html;
                     $timeDisplayed = true;
                     echo "<div class='col-md-6 col-sm-8 col-xs-12'>";
                         echo "<div class='dummy-double'></div>";
-                        echo Html::a("<h2>Testing double</h2>", ['#'], ['class' => 'thumbnail-double', 'style' => "background:$thumbnailColor;"]);
+                        echo Html::a("<h2>Get Your Tickets Now!</h2>", ['/package/view-all-packages'], ['class' => 'thumbnail-double', 'style' => "background:$thumbnailColor;"]);
+                        //Pjax::begin(); //Pjax keeps closing dropdown menu.
+                            //echo Html::a("Refresh", ['site/index'], ['class' => 'hidden', 'id' => 'refreshButton']);
+                            echo Html::a("<h2>" . $this->render('/widgets/_timer.php') . "</h2>", ['/package/view-all-packages'], ['class' => 'thumbnail-double thumbnail-hover', 'style' => "background:$thumbnailColor;"]);
+                        //Pjax::end();
                     echo "</div>";
                 }
                 
