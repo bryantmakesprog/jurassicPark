@@ -18,9 +18,13 @@ use yii\helpers\Html;
         <div class="row">
             
             <?php
-            $weatherLocation = 6;
+            $timeLocation = 0;
+            $timeDisplayed = false;
+            $logoLocation = 0;
+            $logoDisplayed = false;
+            $weatherLocation = 7;
             $weatherDisplayed = false;
-            $ticketLocation = 0;
+            $ticketLocation = 1;
             $ticketDisplayed = false;
             
             //Array of background colors.
@@ -31,6 +35,27 @@ use yii\helpers\Html;
             {
                 //Get standard thumbnail color.
                 $thumbnailColor = "#880000";
+                
+                //Check for timer.
+                if($i == $timeLocation)
+                {
+                    $timeDisplayed = true;
+                    echo "<div class='col-md-6 col-sm-8 col-xs-12'>";
+                        echo "<div class='dummy-double'></div>";
+                        echo Html::a("<h2>Testing double</h2>", ['#'], ['class' => 'thumbnail-double', 'style' => "background:$thumbnailColor;"]);
+                    echo "</div>";
+                }
+                
+                //Check for logo.
+                if($i == $timeLocation)
+                {
+                    $logoDisplayed = true;
+                    $logoURL = "http://res.cloudinary.com/dxqmggd5a/image/upload/c_scale,e_negate,h_500,w_500/v1456082054/jurassic/misc/logo.png";
+                    echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
+                        echo "<div class='dummy'></div>";
+                        echo Html::a("", ['#'], ['class' => 'thumbnail', 'style' => "background:$thumbnailColor url('$logoURL'); background-size: 100% 100%;"]);
+                    echo "</div>";
+                }
                 
                 //Check for weather tile.
                 if($i == $weatherLocation)
