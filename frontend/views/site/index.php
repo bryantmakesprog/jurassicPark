@@ -18,25 +18,43 @@ use yii\helpers\Html;
         <div class="row">
             
             <?php
-            $weatherLocation = 0;
+            $weatherLocation = 6;
             $weatherDisplayed = false;
+            $ticketLocation = 0;
+            $ticketDisplayed = false;
             
-            echo "<p>TODO: We are trying to display an image until we hover over the link. Then we want to see a solid color and the name of the attraction.</p>";
+            //Array of background colors.
+            $backgroundColors = ["#B01E00", "#E1B700", "#FE7C22"];
             
             $i = 0;
             foreach(Attraction::find()->all() as $attraction)
             {
+                //Get standard thumbnail color.
+                $thumbnailColor = "#880000";
+                
+                //Check for weather tile.
                 if($i == $weatherLocation)
                 {
                     //Echo our weather.
                     $weatherDisplayed = true;
+                    echo $this->render('/widgets/_weather', ['tileColor' => $thumbnailColor]);
+                }
+                
+                //Check for ticket tile.
+                if($i == $ticketLocation)
+                {
+                    //Echo our ticket.
+                    $ticketDisplayed = true;
+                    $ticketURL = "http://res.cloudinary.com/dxqmggd5a/image/upload/e_negate/v1456075732/icons/ticket.png";
                     echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
                         echo "<div class='dummy'></div>";
-                        echo "<a href='#' class='thumbnail'>";
-                            echo $this->render('/widgets/_weather');
-                        echo "</a>";
+                        echo Html::a("<h2>Ticket Options</h2>", ['/package/view-all-packages'], ['class' => 'thumbnail', 'style' => "background:$thumbnailColor;"]);
+                        echo Html::a("", ['/package/view-all-packages'], ['class' => 'thumbnail thumbnail-hover', 'style' => "background:$thumbnailColor url('$ticketURL') no-repeat center;"]);
                     echo "</div>";
                 }
+                
+                //Get random thumbnail color.
+                $randomThumbnailColor = $backgroundColors[array_rand($backgroundColors, 1)];
             
                 //Get attraction image.
                 $imageURL = "http://i.imgur.com/B2x3TTy.jpg";
@@ -48,7 +66,7 @@ use yii\helpers\Html;
                 //Echo our attraction.
                 echo "<div class='col-md-3 col-sm-4 col-xs-6'>";
                     echo "<div class='dummy'></div>";
-                    echo Html::a("<h2>$attraction->name</h2>", ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail', 'style' => 'background-color:#b91d47;']);
+                    echo Html::a("<h2>$attraction->name</h2>", ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail', 'style' => "background-color:$randomThumbnailColor;"]);
                     echo Html::a("", ['/attraction/view-attraction', 'id' => $attraction->id], ['class' => 'thumbnail thumbnail-hover', 'style' => "background-image:url('$imageURL');background-size:100% 100%;"]);
                 echo "</div>";
                 
