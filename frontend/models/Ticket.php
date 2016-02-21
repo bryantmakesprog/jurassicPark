@@ -72,4 +72,29 @@ class Ticket extends \yii\db\ActiveRecord
         $model->status = 'active';
         $model->save();
     }
+    
+    public function isRedeemable()
+    {
+        return $this->status == 'active';
+    }
+    
+    public function redeemTicket()
+    {
+        if($this->status == 'active')
+        {
+            $this->status = 'redeemed';
+            $date = new \DateTime();
+            $this->redeemedAt = $date->getTimestamp();
+            $this->save();
+        }
+    }
+    
+    public function rejectTicket()
+    {
+        if($this->status == 'redeemed')
+        {
+            $this->status = 'expired';
+            $this->save();
+        }
+    }
 }
