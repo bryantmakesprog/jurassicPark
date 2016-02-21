@@ -18,6 +18,14 @@ $this->title = $name;
     </div>
 
     <p>
+        <img src="http://res.cloudinary.com/dxqmggd5a/image/upload/r_20/v1456080603/jurassic/misc/error.jpg" />
+    </p>
+    
+    <p>
+        <h2>We're Tyranno-Sorry!</h2>
+    </p>
+    
+    <p>
         The above error occurred while the Web server was processing your request.
     </p>
     <p>
