@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Attraction;
 
 /**
  * This is the model class for table "log".
@@ -49,5 +50,21 @@ class Log extends \yii\db\ActiveRecord
             'location' => 'Location',
             'timestamp' => 'Timestamp',
         ];
+    }
+    
+    public function getActions_checkInOut()
+    {
+        return ['checked in' => "Check In", 'checked out' => "Check Out"];
+    }
+    
+    public function getLocations_attractions()
+    {
+        $locations = array();
+        $allAttractions = Attraction::find()->all();
+        foreach($allAttractions as $attraction)
+        {
+            $locations[$attraction->name] = $attraction->name;
+        }
+        return $locations;
     }
 }

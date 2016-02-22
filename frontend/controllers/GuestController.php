@@ -147,23 +147,30 @@ class GuestController extends Controller
         }
     }
     
-    public function actionRedeemTicket($ticketId, $firstName, $lastName)
+    public function actionRedeemTicket()
     {
-//TODO turn this into a redoable form.
-        $ticket = Ticket::findOne($ticketId);
-        if($ticket)
+        $error = "";
+        $model = new Guest();
+        if ($model->load(Yii::$app->request->post())) 
         {
-            if($ticket->isRedeemable())
+            $ticket = Ticket::findOne($model->ticket);
+            if($ticket)
             {
-                $ticket->redeemTicket();
-                Guest::createFromTicket($ticket, $firstName, $lastName);
+                if($ticket->isRedeemable())
+                {
+                    $ticket->redeemTicket();
+                    $model->redeemedAt = $ticket->redeemedAt;
+                    $model->user = $ticket->owner;
+                    if($model->save())
+                        return $this->redirect(['view', 'id' => $model->id]);
+                }
+                $error = "Ticket is not redeemable.";
             }
-            else {
-                throw new NotFoundHttpException("Ticket isn't redeemable. Current status: $ticket->status");
+            else
+            {
+                $error = "No Ticket exists with the given ID.";
             }
         }
-        else {
-            throw new NotFoundHttpException("No ticket with ID '$ticketId' exists.");
-        }
+        return $this->render('create', ['model' => $model, 'error' => $error]);
     }
 }

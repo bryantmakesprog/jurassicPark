@@ -11,6 +11,9 @@ use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+
+//For RBAC
+use common\models\User;
 use yii\filters\AccessControl;
 
 /**
@@ -26,7 +29,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'employee'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -37,6 +40,14 @@ class SiteController extends Controller
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['employee'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule, $action){
+                            return User::userIsEmployee();
+                        }
                     ],
                 ],
             ],
@@ -209,5 +220,10 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionEmployee()
+    {
+        return $this->render('/employee/landing');
     }
 }

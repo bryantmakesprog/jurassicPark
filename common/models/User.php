@@ -199,4 +199,20 @@ class User extends ActiveRecord implements IdentityInterface
         $user = User::find()->where(['username' => Yii::$app->user->identity->username])->one();
         return ($user->role >= User::ROLE_ADMIN);
     }
+    
+    public function userIsEmployee()
+    {
+        if(Yii::$app->user->isGuest)
+            return false;
+        $user = User::find()->where(['username' => Yii::$app->user->identity->username])->one();
+        return ($user->role > User::ROLE_USER);
+    }
+    
+    public function userIsBryant()
+    {
+        if(Yii::$app->user->isGuest)
+            return false;
+        $user = User::find()->where(['username' => Yii::$app->user->identity->username])->one();
+        return ($user->role > User::ROLE_BRYANT);
+    }
 }

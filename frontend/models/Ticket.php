@@ -78,6 +78,11 @@ class Ticket extends \yii\db\ActiveRecord
         return $this->status == 'active';
     }
     
+    public function isRedeemed()
+    {
+        return $this->status == 'redeemed';
+    }
+    
     public function redeemTicket()
     {
         if($this->status == 'active')

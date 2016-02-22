@@ -69,9 +69,8 @@ class Attraction extends \yii\db\ActiveRecord
     {
         $this->queueSize--;
         if($this->queueSize < 0)
-            throw new \yii\base\Exception( "Attempting to decrement queue of $this->name below zero." );
-        else
-            $this->save();
+            $this->queueSize = 0;
+        $this->save();
     }
     
     public function incrementQueue()

@@ -12,6 +12,7 @@ use common\widgets\Alert;
 
 use app\models\Package;
 use app\models\Attraction;
+use common\models\User;
 
 AppAsset::register($this);
 ?>
@@ -58,6 +59,11 @@ AppAsset::register($this);
     if(!Yii::$app->user->isGuest)
     {
         $profileMenuItems[] = ['label' => "Logout", 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
+        if(User::userIsEmployee())
+        {
+             $profileMenuItems[] = "<li class='divider'></li>";
+             $profileMenuItems[] = ['label' => "Operations", 'url' => ['/site/employee']];
+        }
     }
     
     $menuItems = [
